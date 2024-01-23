@@ -18,8 +18,13 @@ resource "random_id" "this" {
   byte_length = 8
 }
 
+data "aws_subnet" "this" {
+  id = var.subnet_id
+}
+
 resource "aws_security_group" "this" {
-  name = "udemy-terraform-ec2-sg-${random_id.this.hex}"
+  name   = "udemy-terraform-ec2-sg-${random_id.this.hex}"
+  vpc_id = data.aws_subnet.this.vpc_id
 }
 
 resource "aws_security_group_rule" "ssh" {
