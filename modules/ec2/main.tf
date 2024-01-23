@@ -2,7 +2,9 @@ resource "aws_instance" "this" {
   ami           = "ami-0b828c1c5ac3f13ee"
   instance_type = "t2.micro"
 
-  vpc_security_group_ids = [aws_security_group.this.id]
+  subnet_id                   = var.subnet_id
+  vpc_security_group_ids      = [aws_security_group.this.id]
+  associate_public_ip_address = true
 
   user_data                   = file("${path.module}/user_data.sh")
   user_data_replace_on_change = true
